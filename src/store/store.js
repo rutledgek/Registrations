@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
       "sortBy": "LastName",
-      "groupType": "Cabin",
+      "groupType": "",
       "Registrations": [{
           	"AliasId": 82,
           	"FirstName": "Ellie",
@@ -181,7 +181,6 @@ export const store = new Vuex.Store({
   },
   getters: {
     filteredGroups(state) {
-
       // var filteredGroupsbyType = state.Groups.Type.filter(isGroupType);
       // return filteredGroupsbyType;
       if(state.groupType == "") {
@@ -216,4 +215,9 @@ export const store = new Vuex.Store({
         return unique;
     },
   },
+  mutations: {
+    updateFilter(state, val){
+      state.groupType = val;
+  },
+}
 });

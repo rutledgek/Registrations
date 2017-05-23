@@ -9,6 +9,7 @@
           HEre is some information
         </div>
         <div style="width:25%">
+          <groupTypeSelector></groupTypeSelector>
           <unassigned></unassigned>
         </div>
       </div>
@@ -19,11 +20,12 @@
 <script>
 import unassigned from './components/unassigned'
 import draggable from 'vuedraggable'
+import groupTypeSelector from './components/groupTypeSelector'
 
 export default {
   name: 'app',
   components: {
-    unassigned, draggable
+    unassigned, draggable, groupTypeSelector,
   }
 }
 </script>
