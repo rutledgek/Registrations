@@ -50,4 +50,4 @@ The main list is filtered by registration goup type that is selected and who has
 
   -----
   Potential other modules:
-    GIve a summary of fees(options) for each grou. The SQL is currently written and it would be to import the results to see more event registration information in one place.
+    GIve a summary of fees(options) for each group. The SQL is currently written and it would be to import the results to see more event registration information in one place.
