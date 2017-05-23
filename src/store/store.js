@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-      "sortBy": "Grade",
+      "sortBy": "LastName",
+      "groupType": "Cabin",
       "Registrations": [{
           	"AliasId": 82,
           	"FirstName": "Ellie",
@@ -164,42 +165,55 @@ export const store = new Vuex.Store({
           "AgeStart": 3,
           "AgeEnd:": 4,
           "Gender":"Female",
-          "Members": "13, 14, 82, 85, 86, 92, 96, 97, 101, 105, 108",
+          "Members": "126",
           },
           {
           "RegistrationInstanceId":3,
-          "Type": "Cabin",
+          "Type": "Van",
           "name":"Cabin2",
           "capacity": 30,
           "GradeStart": 9,
           "GradeEnd": 12,
           "Gender":"Female",
-          "Members": "",
+          "Members": "82,85,86,92",
           }
         ],
   },
   getters: {
+    filteredGroups(state) {
 
-    allAssignedRegistrations(state) {
-      var len = state.Groups.length;
+      // var filteredGroupsbyType = state.Groups.Type.filter(isGroupType);
+      // return filteredGroupsbyType;
+      if(state.groupType == "") {
+          var filteredGroupsbyType = state.Groups
+      }
+      else {
+      var filteredGroupsbyType = state.Groups.filter(group => group.Type == state.groupType);
+      }
+      return filteredGroupsbyType;
+    },
+    unassignedRegistrants(state, getters) {
+      var selectedGroups = getters.filteredGroups;
+      var len = selectedGroups.length;
+      console.log(len);
       var memberslist = [];
       for (var i=0; i<len; i++){
-        memberslist = state.Groups[i].Members + ", " + memberslist;
+        memberslist = selectedGroups[i].Members + ", " + memberslist;
       }
       var strVale = memberslist;
-      var strArr = strVale.split(',');
-      var intArr = [];
+      var strArr = memberslist.split(',');
+      var memberslist = [];
       for(i=0; i < strArr.length; i++)
-         intArr.push(parseInt(strArr[i]));
+         memberslist.push(parseInt(strArr[i]));
 
-      return intArr;
+       var orderedRegistrations=_.orderBy(state.Registrations, state.sortBy).filter(x => !memberslist.includes(x.AliasId))
+       return orderedRegistrations;
+
     },
-
-    allRegistrants(state, sort) {
-          var orderedRegistrations=_.orderBy(state.Registrations, state.sortBy)
-          var filterGroup = store.getters.allAssignedRegistrations;
-          var filtered = orderedRegistrations.filter(x => !filterGroup.includes(x.AliasId));
-          return filtered;
-        }
+    uniqueTypes(state) {
+        var groupsList = state.Groups;
+        let unique = [...new Set(groupsList.map(item => item.Type))];
+        return unique;
+    },
   },
 });

@@ -30,7 +30,7 @@
 
 <script>
 import draggable from 'vuedraggable';
-import { state } from '../store';
+import { state } from '../store/store';
 
 
 
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     Registrations() {
-      return this.$store.getters.allRegistrants;
+      return this.$store.getters.unassignedRegistrants;
     }
   },
 }
