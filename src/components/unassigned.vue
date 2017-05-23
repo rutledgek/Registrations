@@ -87,6 +87,7 @@ a {
 .registrations{
   width: 100%;
   text-align: left;
+  cursor: grab;
 }
 h6{
   text-align: left;
