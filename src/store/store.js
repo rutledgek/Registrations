@@ -157,25 +157,38 @@ export const store = new Vuex.Store({
         "Groups":[
           {
           "RegistrationInstanceId":3,
-          "Type": "Cabin",
-          "name":"Cabin1",
-          "capcity": 5,
-          "GradeStart": 5,
-          "GradeEnd": 8,
-          "AgeStart": 3,
-          "AgeEnd:": 4,
-          "Gender":"Female",
-          "Members": "126",
+          "type": "Cabin",
+          "name":"Cabin 1",
+          "capacity": 5,
+          "gradeStart": 5,
+          "gradeEnd": 8,
+          "ageStart": 3,
+          "ageEnd": 4,
+          "gender":"Female",
+          "members": [126],
+          "fontAwesome":"fa-home"
           },
           {
           "RegistrationInstanceId":3,
-          "Type": "Van",
-          "name":"Cabin2",
+          "type": "Van",
+          "name":"Van 1",
           "capacity": 30,
-          "GradeStart": 9,
-          "GradeEnd": 12,
-          "Gender":"Female",
-          "Members": "82,85,86,92",
+          "gradeStart": 9,
+          "gradeEnd": 12,
+          "gender":"Female",
+          "members": [82,85,86,92],
+          "fontAwesome":"fa-car"
+          },
+          {
+          "RegistrationInstanceId":3,
+          "type": "Van",
+          "name":"Van 2",
+          "capacity": 12,
+          "gradeStart": 5,
+          "gradeEnd": 9,
+          "gender":"Female",
+          "members": [128,129,13],
+          "fontAwesome":"fa-car"
           }
         ],
   },
@@ -187,17 +200,16 @@ export const store = new Vuex.Store({
           var filteredGroupsbyType = state.Groups
       }
       else {
-      var filteredGroupsbyType = state.Groups.filter(group => group.Type == state.groupType);
+      var filteredGroupsbyType = state.Groups.filter(group => group.type == state.groupType);
       }
       return filteredGroupsbyType;
     },
     unassignedRegistrants(state, getters) {
       var selectedGroups = getters.filteredGroups;
       var len = selectedGroups.length;
-      console.log(len);
       var memberslist = [];
       for (var i=0; i<len; i++){
-        memberslist = selectedGroups[i].Members + ", " + memberslist;
+        memberslist = selectedGroups[i].members + ", " + memberslist;
       }
       var strVale = memberslist;
       var strArr = memberslist.split(',');
@@ -210,13 +222,31 @@ export const store = new Vuex.Store({
 
     },
     uniqueTypes(state) {
-        var groupsList = state.Groups;
-        let unique = [...new Set(groupsList.map(item => item.Type))];
-        return unique;
+      function removeDuplicates(originalArray, prop) {
+             var newArray = [];
+             var lookupObject  = {};
+
+             for(var i in originalArray) {
+                lookupObject[originalArray[i][prop]] = originalArray[i];
+             }
+
+             for(i in lookupObject) {
+                 newArray.push(lookupObject[i]);
+             }
+              return newArray;
+          }
+
+          var uniqueArray = removeDuplicates(state.Groups, "type");
+        return uniqueArray;
     },
-  },
+    getPersonByAliasId: (state, getters) => (id) => {
+  // return state.Registrations.find(Registration => Registration.AliasId === id)
+  // console.log(id);
+}
+},
   mutations: {
     updateFilter(state, val){
+      // console.log(val);
       state.groupType = val;
   },
 }

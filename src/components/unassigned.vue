@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="rows">
         <draggable class="dragArea"  style="min-height: 80px; width:100%">
-          <h2>Unassigned Registrants:</h2>
+          <h2><strong>Unassigned Registrants:</strong> ({{ filteredCount }})</h2>
           <div class="registrations well" v-for="Registration in Registrations">
             <div class="rows">
               <div>
@@ -43,6 +43,9 @@ export default {
   computed: {
     Registrations() {
       return this.$store.getters.unassignedRegistrants;
+    },
+    filteredCount() {
+      return this.$store.getters.unassignedRegistrants.length;
     }
   },
 }
