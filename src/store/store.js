@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-      "sortBy": "LastName",
+      "sortBy": "AliasId",
       "groupType": "",
       "Registrations": [{
           	"AliasId": 82,
@@ -156,6 +156,7 @@ export const store = new Vuex.Store({
           }],
         "Groups":[
           {
+          "Id": 1,
           "RegistrationInstanceId":3,
           "type": "Cabin",
           "name":"Cabin 1",
@@ -169,6 +170,7 @@ export const store = new Vuex.Store({
           "fontAwesome":"fa-home"
           },
           {
+          "Id": 2,
           "RegistrationInstanceId":3,
           "type": "Van",
           "name":"Van 1",
@@ -176,10 +178,11 @@ export const store = new Vuex.Store({
           "gradeStart": 9,
           "gradeEnd": 12,
           "gender":"Female",
-          "members": [82,85,86,92],
+          "members": [82,85,86,92,101,128,],
           "fontAwesome":"fa-car"
           },
           {
+          "Id": 3,
           "RegistrationInstanceId":3,
           "type": "Van",
           "name":"Van 2",
@@ -187,15 +190,24 @@ export const store = new Vuex.Store({
           "gradeStart": 5,
           "gradeEnd": 9,
           "gender":"Female",
-          "members": [128,129,13],
+          "members": [129,13,123],
           "fontAwesome":"fa-car"
-          }
+        },{
+          "Id": 4,
+          "RegistrationInstanceId":3,
+          "type": "Van",
+          "name":"Van 3",
+          "capacity": 12,
+          "gradeStart": 5,
+          "gradeEnd": 9,
+          "gender":"Female",
+          "members": [14],
+          "fontAwesome":"fa-car"
+        },
         ],
   },
   getters: {
     filteredGroups(state) {
-      // var filteredGroupsbyType = state.Groups.Type.filter(isGroupType);
-      // return filteredGroupsbyType;
       if(state.groupType == "") {
           var filteredGroupsbyType = state.Groups
       }
@@ -221,6 +233,9 @@ export const store = new Vuex.Store({
        return orderedRegistrations;
 
     },
+    allRegistrations(state) {
+      return state.Registrations
+    },
     uniqueTypes(state) {
       function removeDuplicates(originalArray, prop) {
              var newArray = [];
@@ -239,15 +254,17 @@ export const store = new Vuex.Store({
           var uniqueArray = removeDuplicates(state.Groups, "type");
         return uniqueArray;
     },
-    getPersonByAliasId: (state, getters) => (id) => {
-  // return state.Registrations.find(Registration => Registration.AliasId === id)
-  // console.log(id);
-}
 },
   mutations: {
     updateFilter(state, val){
       // console.log(val);
       state.groupType = val;
   },
+    updateSort(state, val){
+      state.sortBy = val;
+    },
+    removeItem(state, val, val2){
+    console.log(val, val2)
+    }
 }
 });

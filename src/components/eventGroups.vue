@@ -1,32 +1,54 @@
 <template>
 
   <div class="eventgroups"  v-if="($store.state.groupType != '')">
-    <div v-for="group in eventGroups">
-      <h3>{{ group.name }}({{ group.capacity}})</h3>
+    <div v-for="group in eventGroups" class="group">
+      <h3>{{ group.name }}</h3><h5>Spots Left: {{ group.capacity - group.members.length}} / {{ group.capacity }}</h5>
       <div class="filters">
         <div>
           Type: {{ group.type}}
         </div>
-        <div>
+        <div v-if="(group.gender)">
           Gender: {{ group.gender}}
         </div>
-        <div>
+        <div v-if="(group.ageStart)">
            Age Range: {{ group.ageStart}}-{{group.ageEnd}}
         </div>
-        <div>
+        <div v-if="(group.gradeStart)">
           Grade Range: {{ group.gradeStart}}-{{ group.gradeEnd}}
         </div>
       </div>
-      <div>
+      <div class="personList">
         <h5>Members</h5>
-        <div v-for="person in persons(group.members)">
-
-        </div>{{group.members}}
+        <div v-for="person in persons(group.members)" class="memberslist well" >
+          <draggable class="dragarea">
+          <div class="rows">
+            <div>
+              <h6>{{  person.FirstName}} {{  person.LastName }}</h6>
+            </div>
+          </div>
+          <div class="rows">
+            <div>
+              Age: {{  person.Age }}
+            </div>
+            <div>
+              Grade: {{ person.Grade }}
+            </div>
+            <div>
+              Gender: {{  person.Gender }}
+            </div>
+            <div>
+              <a @click="removeItem(person.AliasId, this.$parent.group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
+            </div>
+          </div>
+          </draggable>
+        </div>
       </div>
     </div>
   </div>
   <div v-else>
     <h2>Please Choose A Group Type</h2>
+    <groupTypeSelector></groupTypeSelector>
+
   </div>
 
 </template>
@@ -36,17 +58,18 @@
 
 import { state } from '../store/store';
 import Vue2Filters from 'vue2-filters';
+import draggable from 'vuedraggable';
+
+import groupTypeSelector from '../components/groupTypeSelector';
 
 // Vue.use(Vue2Filters);
 
 export default {
   name: "eventGroups",
+  components: { groupTypeSelector, draggable},
   computed: {
     eventGroups(){
       return this.$store.getters.filteredGroups;
-    },
-    groupMembers(){
-      return this.$store.getters.getPersonByAliasId(Group.members);
     },
   },
   methods: {
@@ -55,35 +78,18 @@ export default {
       var lookup = val;
       var len = lookup.length;
       var people =[];
-      // console.log(lookup), console.log(len);
       for (var i=0; i<len; i++){
-        people.push(this.$store.state.Registrations.filter(x => this.$store.state.Registrations.includes(x.AliasId.val)));
+        people = _.concat(people, _.find(this.$store.state.Registrations, function(o) { return o.AliasId === lookup[i]; }))
       }
-      console.log(people);
+      return _.orderBy(people, this.$store.state.sortBy);
+      // return people;
     },
-      // console.log(memberlst);
-      // var len = selectedGroups.length;
-      // var memberslist = [];
-      // for (var i=0; i<len; i++){
-      //   memberslist = selectedGroups[i].members + ", " + memberslist;
-      // }
-      // var strVale = memberslist;
-      // var strArr = memberslist.split(',');
-      // var memberslist = [];
-      // for(i=0; i < strArr.length; i++)
-      //    memberslist.push(parseInt(strArr[i]));
-      // // console.log(val);
-      // var len = val.length;
-      // var list = val;
-      // var person = [];
-      // var i;
-      // // console.log(len);
-      // for(i=0; i<0; i++){
-      //     console.log(list[i]);
-      // }
-      // // console.log(person);
-      // return _.findIndex(this.$store.Registrations, function(o) { return o.AliasId == val; });
-      // this.$store.state.Registrations.filter(function(o){return o.AliasId == val[i]})
+    updateMemberList(val){
+      console.log(val);
+    },
+    removeItem(val,val2){
+      this.$store.commit('removeItem', val, val2);
+    }
     },
   }
 
@@ -101,8 +107,9 @@ export default {
   flex-shring: 2;
 }
 .eventgroups>div {
-  width: 50%;
+  width: 45%;
   box-sizing:border-box;
+  margin: 10px;
 }
 .filters{
   display:flex;
@@ -115,12 +122,68 @@ export default {
 
   /*margin-left: 40px;*/
 }
+.group{
+  display:flex;
+  flex-direction:column;
+  align-content:center;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  padding: 15px;
+}
 .filters>div {
   margin: 5px;
   box-sizing: border-box;
   width:45%;
 
   /*width: 70%*/
+}
+.rows>div {
+  height: 20px;
+  padding: 0;
+  /*margin-bottom: 30px;*/
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  /*margin: 0 10px;*/
+}
+
+a {
+  color: #42b983;
+}
+.rows{
+  display:flex;
+  flex-diretion:column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size:.75em;
+  height: 20px;
+}
+.registrations{
+  width: 90%;
+  text-align: left;
+  cursor: grab;
+}
+h6{
+  text-align: left;
+}
+.well{
+  /*margin-bottom:2px;*/
+  padding: 0 5px;
+  margin-bottom: 2px;
+  /*padding-left: 5px;*/
+  /*height: 50px;*/
+}
+h6 {
+  /*font-weight: normal;*/
+  font-size:1.2em;
+  margin-bottom:30px;
+
 }
 
 </style>

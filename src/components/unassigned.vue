@@ -1,27 +1,36 @@
 <template>
   <div class="hello">
     <div class="rows">
-        <draggable class="dragArea"  style="min-height: 80px; width:100%">
-          <h2><strong>Unassigned Registrants:</strong> ({{ filteredCount }})</h2>
-          <div class="registrations well" v-for="Registration in Registrations">
-            <div class="rows">
-              <div>
-                <h5>{{  Registration.FirstName}} {{  Registration.LastName }} - {{ Registration.AliasId}}</h5>
+          <div v-if="this.$store.state.groupType != ''" style="width: 100%">
+            <h2><strong>Unassigned Registrants:</strong> ({{ filteredCount }})</h2>
+            <div class="btn btn-primary" @click="SortOrder('LastName')">Name</div>
+            <div class="btn btn-primary" @click="SortOrder('Age')">Age</div>
+            <div class="btn btn-primary" @click="SortOrder('Grade')">Grade</div>
+            <div class="btn btn-primary" @click="SortOrder('Gender')">Gender</div>
+            <draggable class="dragArea"  style="min-height: 80px; width:100%" :options="{sort:false}">
+              <div class="registrations well" v-for="Registration in Registrations">
+                <div class="rows">
+                  <div>
+                    <h5>{{  Registration.FirstName}} {{  Registration.LastName }}</h5>
+                  </div>
+                </div>
+                <div class="rows">
+                  <div class="attributes">
+                    Age: {{  Registration.Age }}
+                  </div>
+                  <div class="attributes">
+                    Grade: {{ Registration.Grade }}
+                  </div>
+                  <div class="attributes">
+                    Gender: {{  Registration.Gender }}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="rows">
-              <div>
-                Age: {{  Registration.Age }}
-              </div>
-              <div>
-                Grade: {{ Registration.Grade }}
-              </div>
-              <div>
-                Gender: {{  Registration.Gender }}
-              </div>
-            </div>
+            </draggable>
           </div>
-        </draggable>
+          <div v-else  style="width: 100%">
+              <h3>Please Choose a Group Type.</h3>
+          </div>
       </div>
     </div>
   </div>
@@ -46,23 +55,32 @@ export default {
     },
     filteredCount() {
       return this.$store.getters.unassignedRegistrants.length;
+    },
+    allRegistrations() {
+      return this.$store.getters.allRegistrations;
     }
   },
+  methods: {
+    SortOrder(val) {
+        this.$store.commit('updateSort',val);
+    }
+  }
 }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2,h3,h4,h5,h6 {
+h1, h2,h3,h4,h5,h6{
   /*font-weight: normal;*/
-  font-size:1.25em;
+  font-size:1.5em;
   /*margin-bottom:30px;*/
 
 }
 .rows>div {
   height: 20px;
   padding: 0;
+  /*width: 100%;*/
   /*margin-bottom: 30px;*/
 }
 ul {
@@ -101,5 +119,11 @@ h6{
   margin-bottom: 2px;
   /*padding-left: 5px;*/
   /*height: 50px;*/
+}
+.attributes{
+  font-size: 1.3em;
+}
+.btn {
+  margin-bottom: 5px;
 }
 </style>

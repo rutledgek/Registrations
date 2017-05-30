@@ -4,8 +4,12 @@
     <div class="group" v-for="group in selectedGroups" @click="changeFilter(group.type)">
       <div class="groupcontainer">
         <i class="fa fa-2x" :class="group.fontAwesome"></i><br />{{ group.type }}
-        </p>
       </div>
+    </div>
+    <div class="group">
+      <div class="groupcontainer">
+      <i class="fa fa-2x fa-plus"></i><br />Group
+    </div>
     </div>
   </div>
 
