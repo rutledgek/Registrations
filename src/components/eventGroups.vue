@@ -37,7 +37,7 @@
               Gender: {{  person.Gender }}
             </div>
             <div>
-              <a @click="removeItem(person.AliasId, this.$parent.group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
+              <a @click="removeItem(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
             </div>
           </div>
           </draggable>
@@ -84,11 +84,12 @@ export default {
       return _.orderBy(people, this.$store.state.sortBy);
       // return people;
     },
-    updateMemberList(val){
+    updateMemberList(val,val2){
       console.log(val);
+      console.log(val2);
     },
-    removeItem(val,val2){
-      this.$store.commit('removeItem', val, val2);
+    removeItem(val, val2){
+      console.log(val, val2)
     }
     },
   }

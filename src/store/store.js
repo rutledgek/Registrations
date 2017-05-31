@@ -263,7 +263,7 @@ export const store = new Vuex.Store({
     updateSort(state, val){
       state.sortBy = val;
     },
-    removeItem(state, val, val2){
+    removeItem(val, val2, state){
     console.log(val, val2)
     }
 }
