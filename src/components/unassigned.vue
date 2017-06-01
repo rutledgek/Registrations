@@ -18,8 +18,8 @@
                   <div class="attributes">
                     Age: {{  Registration.Age }}
                   </div>
-                  <div class="attributes">
-                    Grade: {{ Registration.Grade }}
+                  <div class="attributes" v-if="(Registration.Grade >= 0)">
+                    {{ Registration.GradeFormatted }}
                   </div>
                   <div class="attributes">
                     Gender: {{  Registration.Gender }}

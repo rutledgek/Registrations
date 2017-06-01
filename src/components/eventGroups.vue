@@ -30,8 +30,8 @@
             <div>
               Age: {{  person.Age }}
             </div>
-            <div>
-              Grade: {{ person.Grade }}
+            <div v-if="(person.Grade >= 0)">
+                      Grade: {{ person.GradeFormatted }}
             </div>
             <div>
               Gender: {{  person.Gender }}
@@ -89,7 +89,7 @@ export default {
       console.log(val2);
     },
     removeItem(val, val2){
-      console.log(val, val2)
+      this.$store.dispatch('removeItem', { val, val2 });
     }
     },
   }
