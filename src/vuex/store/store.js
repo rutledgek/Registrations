@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
-
+import actions from './actions'
 
 Vue.use(Vuex);
 
@@ -355,18 +355,5 @@ export const store = new Vuex.Store({
       Arr.push(obj.val);
     }
 },
-actions:{
-    removeMember({ commit }, obj) {
-      console.log(obj.val2);
-      console.log(obj.Arr);
-      setTimeout(function(){
-      commit('Remove_Member', obj)
-    },100);
-    },
-    addMember({ commit }, obj) {
-      setTimeout(function(){
-      commit('Add_Member', obj)
-    },100);
-      }
-    }
+actions
 });
