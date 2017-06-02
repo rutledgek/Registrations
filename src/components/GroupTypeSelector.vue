@@ -18,7 +18,7 @@
 
 <script>
 
-import { state } from '../store/store';
+import { state } from '../vuex/store/store';
 
 export default {
   name: "groupTypeSelector",
@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     changeFilter(val){
-      console.log(val);
       this.$store.commit('updateFilter', val);
   }
 }

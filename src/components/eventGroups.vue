@@ -31,13 +31,13 @@
               Age: {{  person.Age }}
             </div>
             <div v-if="(person.Grade >= 0)">
-                      Grade: {{ person.GradeFormatted }}
+              {{ person.GradeFormatted }}
             </div>
             <div>
               Gender: {{  person.Gender }}
             </div>
             <div>
-              <a @click="removeItem(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
+              <a @click="removeMember(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
             </div>
           </div>
           </draggable>
@@ -56,7 +56,7 @@
 
 <script>
 
-import { state } from '../store/store';
+import { state } from '../vuex/store/store';
 import Vue2Filters from 'vue2-filters';
 import draggable from 'vuedraggable';
 
@@ -72,9 +72,9 @@ export default {
       return this.$store.getters.filteredGroups;
     },
   },
+
   methods: {
     persons(val){
-
       var lookup = val;
       var len = lookup.length;
       var people =[];
@@ -82,14 +82,13 @@ export default {
         people = _.concat(people, _.find(this.$store.state.Registrations, function(o) { return o.AliasId === lookup[i]; }))
       }
       return _.orderBy(people, this.$store.state.sortBy);
-      // return people;
     },
-    updateMemberList(val,val2){
-      console.log(val);
-      console.log(val2);
-    },
-    removeItem(val, val2){
-      this.$store.dispatch('removeItem', { val, val2 });
+    removeMember(val, val2){
+      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2).members;
+      var Arr = _.cloneDeep(oldArr);
+      var indexVal = Arr.indexOf(val);
+      var removed = Arr.splice(indexVal,1);
+      this.$store.dispatch('removeMember', { val, Arr, val2 });
     }
     },
   }

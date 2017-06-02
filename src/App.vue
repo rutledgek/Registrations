@@ -7,7 +7,9 @@
       <div class="flex-layout" v-if="this.$store.state.groupType == ''">
         <div style="width:100%">
           <eventGroups></eventGroups>
+          <addGroup></addGroup>
         </div>
+
         <!-- <div style="width:25%">
           <groupTypeSelector></groupTypeSelector>
           <unassigned></unassigned>
@@ -30,13 +32,14 @@
 import unassigned from './components/unassigned'
 import draggable from 'vuedraggable'
 import groupTypeSelector from './components/groupTypeSelector'
-import { state } from './store/store';
+import { state } from './vuex/store/store';
 import eventGroups from './components/eventGroups'
+import addGroup from './components/groupAdd'
 
 export default {
   name: 'app',
   components: {
-    unassigned, draggable, groupTypeSelector, eventGroups,
+    unassigned, draggable, groupTypeSelector, eventGroups, addGroup
   },
   computed: {
     totalCount() {

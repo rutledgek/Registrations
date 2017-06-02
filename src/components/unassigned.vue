@@ -25,6 +25,9 @@
                     Gender: {{  Registration.Gender }}
                   </div>
                 </div>
+                <div>
+                  <a @click="addMember(Registration.AliasId, 3)"><i class="fa fa-reply-all fa-lg"></i></a>
+                </div>
               </div>
             </draggable>
           </div>
@@ -39,7 +42,7 @@
 
 <script>
 import draggable from 'vuedraggable';
-import { state } from '../store/store';
+import { state } from '../vuex/store/store';
 
 
 
@@ -63,6 +66,12 @@ export default {
   methods: {
     SortOrder(val) {
         this.$store.commit('updateSort',val);
+    },
+    addMember(val, val2){
+      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2).members;
+      var Arr = _.cloneDeep(oldArr);
+      Arr.push(val);
+      this.$store.dispatch('addMember', { val, val2, Arr });
     }
   }
 }

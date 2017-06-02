@@ -271,6 +271,17 @@ export const store = new Vuex.Store({
           "gender":"Female",
           "members": [14],
           "fontAwesome":"fa-car"
+        },{
+          "Id": 4,
+          "RegistrationInstanceId":3,
+          "type": "Gym",
+          "name":"Van 3",
+          "capacity": 12,
+          "gradeStart": 5,
+          "gradeEnd": 9,
+          "gender":"Female",
+          "members": [14],
+          "fontAwesome":"fa-car"
         },
         ],
   },
@@ -284,6 +295,7 @@ export const store = new Vuex.Store({
       }
       return filteredGroupsbyType;
     },
+
     unassignedRegistrants(state, getters) {
       var selectedGroups = getters.filteredGroups;
       var len = selectedGroups.length;
@@ -299,7 +311,6 @@ export const store = new Vuex.Store({
 
        var orderedRegistrations=_.orderBy(state.Registrations, state.sortBy).filter(x => !memberslist.includes(x.AliasId))
        return orderedRegistrations;
-
     },
     allRegistrations(state) {
       return state.Registrations
@@ -320,6 +331,7 @@ export const store = new Vuex.Store({
           }
 
           var uniqueArray = removeDuplicates(state.Groups, "type");
+          var uniqueArray = _.sortBy(uniqueArray, ['type']);
         return uniqueArray;
     },
 },
@@ -331,22 +343,30 @@ export const store = new Vuex.Store({
     updateSort(state, val){
       state.sortBy = val;
     },
-    removeItem(state, val, val2){
-      console.log(state.Groups.find(Group => Group.Id === val));
+    Remove_Member(state, obj) {
+      var Arr = state.Groups.find(grp => grp.Id === obj.val2).members;
+      var indexVal = Arr.indexOf(obj.val);
+      Arr.splice(indexVal,1);
     },
-    REMOVE_GROUP(state, obj) {
-      // console.log(obj.val, obj.val2)
-      var Arr = state.Groups.find(grp => grp.Id === obj.val2);
-      // var Arr = Arr.members;
-      var indexVal = Arr.members.indexOf(obj.val);
-      var removed = Arr.members.splice(indexVal,1);
-      // console.log(Arr);
+
+    Add_Member(state, obj) {
+      // console.log(obj);
+      var Arr = state.Groups.find(grp => grp.Id === obj.val2).members;
+      Arr.push(obj.val);
     }
 },
 actions:{
-
-    removeItem({ commit }, obj) {
-      commit('REMOVE_GROUP', obj)
+    removeMember({ commit }, obj) {
+      console.log(obj.val2);
+      console.log(obj.Arr);
+      setTimeout(function(){
+      commit('Remove_Member', obj)
+    },100);
+    },
+    addMember({ commit }, obj) {
+      setTimeout(function(){
+      commit('Add_Member', obj)
+    },100);
       }
     }
 });
