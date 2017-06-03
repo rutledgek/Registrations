@@ -19,29 +19,31 @@
       </div>
       <div class="personList">
         <h5>Members</h5>
-        <div v-for="person in persons(group.members)" class="memberslist well" >
-          <draggable class="dragarea">
-          <div class="rows">
-            <div>
-              <h6>{{  person.FirstName}} {{  person.LastName }}</h6>
+        <div  v-if="(group.members != 0)">
+            <div v-for="person in persons(group.members)" class="memberslist well" >
+              <draggable class="dragarea">
+              <div class="rows">
+                <div>
+                  <h6>{{  person.FirstName}} {{  person.LastName }}</h6>
+                </div>
+              </div>
+              <div class="rows">
+                <div>
+                  Age: {{  person.Age }}
+                </div>
+                <div v-if="(person.Grade != [0])">
+                  {{ person.GradeFormatted }}
+                </div>
+                <div>
+                  Gender: {{  person.Gender }}
+                </div>
+                <div>
+                  <a @click="removeMember(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
+                </div>
+              </div>
+              </draggable>
             </div>
-          </div>
-          <div class="rows">
-            <div>
-              Age: {{  person.Age }}
-            </div>
-            <div v-if="(person.Grade >= 0)">
-              {{ person.GradeFormatted }}
-            </div>
-            <div>
-              Gender: {{  person.Gender }}
-            </div>
-            <div>
-              <a @click="removeMember(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
-            </div>
-          </div>
-          </draggable>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -81,14 +83,15 @@ export default {
       for (var i=0; i<len; i++){
         people = _.concat(people, _.find(this.$store.state.Registrations, function(o) { return o.AliasId === lookup[i]; }))
       }
-      return _.orderBy(people, this.$store.state.sortBy);
+      return _.orderBy(people, this.$store.state.sortBy.order, this.$store.state.sortBy.direction);
     },
     removeMember(val, val2){
-      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2).members;
-      var Arr = _.cloneDeep(oldArr);
+      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
+      var index = this.$store.state.Groups.indexOf(oldArr);
+      var Arr = _.cloneDeep(oldArr.members);
       var indexVal = Arr.indexOf(val);
-      var removed = Arr.splice(indexVal,1);
-      this.$store.dispatch('removeMember', { val, Arr, val2 });
+      Arr.splice(indexVal,1);
+      this.$store.dispatch('updateMembers', { val, Arr, index });
     }
     },
   }

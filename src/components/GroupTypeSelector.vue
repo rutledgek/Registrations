@@ -25,11 +25,14 @@ export default {
   computed: {
     selectedGroups() {
       return this.$store.getters.uniqueTypes;
+
     }
   },
   methods: {
     changeFilter(val){
       this.$store.commit('updateFilter', val);
+      this.$store.dispatch('getRegistrations');
+      this.$store.dispatch('getGroups');
   }
 }
 
