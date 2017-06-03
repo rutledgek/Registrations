@@ -38,6 +38,10 @@ import addGroup from './components/groupAdd'
 
 export default {
   name: 'app',
+  created: function() {
+    this.$store.dispatch('getRegistrations');
+    this.$store.dispatch('getGroups');
+  },
   components: {
     unassigned, draggable, groupTypeSelector, eventGroups, addGroup
   },
@@ -46,7 +50,7 @@ export default {
       return this.$store.state.Registrations.length;
     },
   },
-  method: {
+  methods: {
 
 
   }

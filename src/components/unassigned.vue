@@ -68,10 +68,14 @@ export default {
         this.$store.commit('updateSort',val);
     },
     addMember(val, val2){
-      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2).members;
-      var Arr = _.cloneDeep(oldArr);
+      var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
+      var index = this.$store.state.Groups.indexOf(oldArr);
+      var Arr = _.cloneDeep(oldArr.members);
+      if(Arr[0]==0){
+        Arr.splice(0,1);
+      }
       Arr.push(val);
-      this.$store.dispatch('addMember', { val, val2, Arr });
+      this.$store.dispatch('updateMembers', { val, Arr, index });
     }
   }
 }
