@@ -4,9 +4,12 @@ export default {
         var filteredGroupsbyType = state.Groups
     }
     else {
-    var filteredGroupsbyType = state.Groups.filter(group => group.type == state.groupType);
+      var filteredGroupsbyType = state.Groups.filter(group => group.type == state.groupType);
     }
     return filteredGroupsbyType;
+  },
+  getlocalgroups(state){
+    return _.last(state.Groups);
   },
   unassignedRegistrants(state, getters) {
     var selectedGroups = getters.filteredGroups;
@@ -27,19 +30,19 @@ export default {
     return state.Registrations
   },
   uniqueTypes(state) {
-    function removeDuplicates(originalArray, prop) {
-           var newArray = [];
-           var lookupObject  = {};
-           for(var i in originalArray) {
-              lookupObject[originalArray[i][prop]] = originalArray[i];
-           }
-           for(i in lookupObject) {
-               newArray.push(lookupObject[i]);
-           }
-            return newArray;
-        }
-        var uniqueArray = removeDuplicates(state.Groups, "type");
-        var uniqueArray = _.sortBy(uniqueArray, ['type']);
+    // function removeDuplicates(originalArray,prop) {
+    //        var newArray = [];
+    //        var lookupObject  = {};
+    //        for(var i in originalArray) {
+    //           lookupObject[originalArray[i][prop]] = originalArray[i];
+    //        }
+    //        for(i in lookupObject) {
+    //            newArray.push(lookupObject[i]);
+    //        }
+    //         return newArray;
+    //     }
+        // var uniqueArray = removeDuplicates(state.Groups, "type");
+        var uniqueArray =  _.sortBy(_.uniqBy(state.Groups, 'type'), 'name');
         return uniqueArray;
   }
 }

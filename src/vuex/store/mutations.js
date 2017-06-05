@@ -26,9 +26,13 @@ export default {
           state.Registrations = response;
     },
     getGroups(state, response) {
-      state.Groups = response;
+      var arr = _.values(response);
+      state.Groups = arr;
     },
     updateMembers(state, {response, obj}) {
       var Arr = state.Groups[obj.index].members = obj.Arr;
+    },
+    addGroup(data) {
+      state.actions.dispatch('getGroups')
     }
 }

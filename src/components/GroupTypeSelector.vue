@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="group">
-      <div class="groupcontainer">
+      <div class="groupcontainer" @click="addGroupForm()">
       <i class="fa fa-2x fa-plus"></i><br />Group
     </div>
     </div>
@@ -33,9 +33,13 @@ export default {
       this.$store.commit('updateFilter', val);
       this.$store.dispatch('getRegistrations');
       this.$store.dispatch('getGroups');
-  }
-}
+    },
 
+    addGroupForm() {
+      this.$store.state.addGroupForm = true;
+    },
+
+  },
 }
 
 </script>

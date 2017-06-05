@@ -2,7 +2,7 @@
 
   <div class="eventgroups"  v-if="($store.state.groupType != '')">
     <div v-for="group in eventGroups" class="group">
-      <h3>{{ group.name }}</h3><h5>Spots Left: {{ group.capacity - group.members.length}} / {{ group.capacity }}</h5>
+      <h3>{{ group.name }}</h3><h5>Spots Left: {{ registrationsLeft(group) }} / {{ group.capacity }}</h5>
       <div class="filters">
         <div>
           Type: {{ group.type}}
@@ -76,6 +76,15 @@ export default {
   },
 
   methods: {
+    registrationsLeft(val){
+      if(val.members.length == 1 && val.members[0] == 0 ) {
+        // var left = val.capacity;
+        return val.capacity;
+      } else {
+        // var left = val.capacity - val.members.length;
+        return val.capacity - val.members.length;
+      }
+    },
     persons(val){
       var lookup = val;
       var len = lookup.length;

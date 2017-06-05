@@ -7,7 +7,7 @@
       <div class="flex-layout" v-if="this.$store.state.groupType == ''">
         <div style="width:100%">
           <eventGroups></eventGroups>
-          <addGroup></addGroup>
+          <!-- <addGroup></addGroup> -->
         </div>
 
         <!-- <div style="width:25%">
@@ -25,6 +25,7 @@
         </div>
       </div>
     </div>
+    <addGroup v-if="(this.$store.state.addGroupForm == true)"></addGroup>
   </div>
 </template>
 
@@ -34,13 +35,14 @@ import draggable from 'vuedraggable'
 import groupTypeSelector from './components/groupTypeSelector'
 import { state } from './vuex/store/store';
 import eventGroups from './components/eventGroups'
-import addGroup from './components/groupAdd'
+import addGroup from './components/addGroupForm'
 
 export default {
   name: 'app',
   created: function() {
-    this.$store.dispatch('getRegistrations');
     this.$store.dispatch('getGroups');
+    this.$store.dispatch('getRegistrations');
+
   },
   components: {
     unassigned, draggable, groupTypeSelector, eventGroups, addGroup

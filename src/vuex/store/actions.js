@@ -11,11 +11,6 @@ export default {
          .then((response) => context.commit('updateMembers', {response, obj}))
          .catch((error) => console.log(error));
       },
-      addMember({ commit }, obj) {
-        setTimeout(function(){
-        commit('Add_Member', obj)
-      },100);
-    },
       getRegistrations(context){
         return api.get('https://registrations-assignment.firebaseio.com/Registrations.json')
          .then((response) => context.commit('getRegistrations',response))
@@ -25,5 +20,11 @@ export default {
         return api.get('https://registrations-assignment.firebaseio.com/Groups.json')
          .then((response) => context.commit('getGroups',response))
          .catch((error) => console.log(error));
+      },
+
+      addGroup(context, data){
+        return api.post('https://registrations-assignment.firebaseio.com/Groups.json',data)
+          .then((response) => context.commit('addGroup',response))
+          .catch((error) => console.log(error));
       },
 }

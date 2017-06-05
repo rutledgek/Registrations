@@ -12,8 +12,9 @@ export const store = new Vuex.Store({
   state: {
       "sortBy": {"order":"AliasId","direction":"asc"},
       "groupType": "",
+      "addGroupForm": false,
       "Registrations": [],
-        "Groups":[],
+      "Groups":[],
   },
   getters,
   mutations,
