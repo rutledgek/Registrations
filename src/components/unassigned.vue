@@ -57,7 +57,11 @@ export default {
       return this.$store.getters.unassignedRegistrants;
     },
     filteredCount() {
-      return this.$store.getters.unassignedRegistrants.length;
+      if( this.$store.state.Groups.length == 0 ) {
+        return this.$store.state.Registrations.length;
+      } else {
+        return this.$store.getters.unassignedRegistrants.length;
+      }
     },
     allRegistrations() {
       return this.$store.getters.allRegistrations;

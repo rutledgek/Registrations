@@ -12,6 +12,7 @@ export default {
     return _.last(state.Groups);
   },
   unassignedRegistrants(state, getters) {
+    if(state.Groups != '') {
     var selectedGroups = getters.filteredGroups;
     var len = selectedGroups.length;
     var memberslist = [];
@@ -25,6 +26,7 @@ export default {
        memberslist.push(parseInt(strArr[i]));
    var orderedRegistrations=_.orderBy(state.Registrations, state.sortBy.order, state.sortBy.direction).filter(x => !memberslist.includes(x.AliasId))
    return orderedRegistrations;
+  }
   },
   allRegistrations(state) {
     return state.Registrations
@@ -44,5 +46,8 @@ export default {
         // var uniqueArray = removeDuplicates(state.Groups, "type");
         var uniqueArray =  _.sortBy(_.uniqBy(state.Groups, 'type'), 'name');
         return uniqueArray;
+  },
+  getGrades (state) {
+    return state.Grades
   }
 }

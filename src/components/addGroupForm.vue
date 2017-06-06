@@ -12,19 +12,24 @@
       <form>
         <div class="form-group">
           <label :class="{required: !newGroup.name}">Group Name:</label>
-          <input type="text" v-model="newGroup.name">
+          <input type="text" v-model="newGroup.name"><br />
+        </div>
+        <div class="form-group">
+          <label :class="{required: !newGroup.type}">Group Capacity: </label><input v-model="newGroup.capacity" style="width: 50px;" type="number"/>
         </div>
         <div class="form-group">
             <label :class="{required: !newGroup.type}">Group Type:</label>
             <select id="test" v-model="groupType">
               <option value="Choose a Group" selected="true" disabled>Choose a Group Type</option>
-              <option v-for="type in groupTypes" class="non" :value="type.type">{{ type.type }}</option>
+              <option v-for="type in groupTypes" class="non" :value="[type.type,type.fontAwesome]">{{ type.type }}</option>
               <option class="editable" value="other">New Group Type</option>
             </select>
             <div class="textInput">
             <input type="text" v-show="(groupType == 'other')" v-focus="focused" @focus="focused = true" @blur="focused = false" class="editOption" v-model="groupTypeText"></input>
           </div>
-          <label :class="{required: !newGroup.type}">Group Capacity: </label><input v-model="newGroup.capacity" style="width: 50px;" type="number"/>
+          <div  v-show="(groupType == 'other')">
+          <label>FontAwesome Icon:</label><input type="text" v-model="newGroup.fontAwesome"></input><br /><br />
+          </div>
         </div>
         <hr/>
         <fieldset>
@@ -66,14 +71,24 @@ export default {
   computed: {
     groupTypes() {
       return this.$store.getters.uniqueTypes;
+    },
+    Grades() {
+      return this.$store.getters.getGrades;
     }
   },
 
   methods: {
     submit(obj){
+      // console.log(obj);
+      if(!this.newGroup.Id) {
+        this.newGroup.Id = 0;
+      } else {
+        this.newGroup.Id = group.Id + 1;
+      }
+      // console.log(obj);
       this.$store.dispatch('getGroups');
-      var group = this.$store.getters.getlocalgroups;
-      this.newGroup.Id = group.Id + 1;
+      // var group = this.$store.getters.getlocalgroups;
+
       this.$store.dispatch('addGroup', obj);
       this.$store.commit('updateFilter', obj.type);
       this.$store.state.addGroupForm = false;
@@ -87,8 +102,10 @@ export default {
       this.focused = true;
       if(this.groupType == 'other') {
         this.newGroup.type = this.groupTypeText;
+        this.newGroup.fontAwesome = 'fa-';
       } else {
-        this.newGroup.type = this.groupType
+        this.newGroup.type = this.groupType[0];
+        this.newGroup.fontAwesome = this.groupType[1];
       }
     },
     groupTypeText: function() {
@@ -104,6 +121,7 @@ export default {
       gradeEnd: null,
       groupType: '',
       groupTypeText: '',
+      fontImage: '',
       enabledSubmit: false,
       submitted: false,
       newGroup: {
@@ -118,51 +136,7 @@ export default {
         gradeEnd: null,
         members: [0],
         Registrationinstance: 3,
-    },
-    Grades: [
-      {"label":"none",
-       "value": null
       },
-      {
-        "label": "Kindergarten",
-        "value": 0
-      }, {
-        "label": "1st Grade",
-        "value": 1
-      }, {
-        "label": "2nd Grade",
-        "value": 2
-      }, {
-        "label": "3rd Grade",
-        "value": 3
-      }, {
-        "label": "4th Grade",
-        "value": 4
-      }, {
-        "label": "5th Grade",
-        "value": 5
-      }, {
-        "label": "6th Grade",
-        "value": 6
-      }, {
-        "label": "7th Grade",
-        "value": 7
-      }, {
-        "label": "8th Grade",
-        "value": 8
-      }, {
-        "label": "9th Grade",
-        "value": 9
-      }, {
-        "label": "10th Grade",
-        "value": 10
-      }, {
-        "label": "11th Grade",
-        "value": 11
-      }, {
-        "label": "12th Grade",
-        "value": 12
-      }]
     }
   },
 }
@@ -190,9 +164,9 @@ a {
 .form {
   width: 500px;
   position: absolute;
-  /*left: 50%;
+  left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%)*/
+  transform: translate(-50%, -50%)
 }
 #groupType{
     padding-top: 50px;

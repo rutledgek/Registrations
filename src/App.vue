@@ -33,7 +33,7 @@
 import unassigned from './components/unassigned'
 import draggable from 'vuedraggable'
 import groupTypeSelector from './components/groupTypeSelector'
-import { state } from './vuex/store/store';
+import { state } from './vuex/store/store'
 import eventGroups from './components/eventGroups'
 import addGroup from './components/addGroupForm'
 
@@ -45,7 +45,7 @@ export default {
 
   },
   components: {
-    unassigned, draggable, groupTypeSelector, eventGroups, addGroup
+    unassigned, draggable, groupTypeSelector, eventGroups, addGroup,
   },
   computed: {
     totalCount() {

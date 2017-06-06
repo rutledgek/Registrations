@@ -32,7 +32,7 @@ export default {
     updateMembers(state, {response, obj}) {
       var Arr = state.Groups[obj.index].members = obj.Arr;
     },
-    addGroup(data) {
-      state.actions.dispatch('getGroups')
-    }
+    GrouptoDelete(state, response) {
+      state.groupToDelete = response;
+    },
 }

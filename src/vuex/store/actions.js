@@ -23,8 +23,21 @@ export default {
       },
 
       addGroup(context, data){
+        // console.log(data);
         return api.post('https://registrations-assignment.firebaseio.com/Groups.json',data)
-          .then((response) => context.commit('addGroup',response))
+          .then((response) => {
+            context.dispatch('getGroups')
+          })
+          .catch((error) => console.log(error));
+      },
+      deleteGroup(context, data) {
+        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + data.Id + '&limitToFirst1*print=pretty')
+          .then((response) => {
+            return api.delete('https://registrations-assignment.firebaseio.com/Groups/'+Object.keys(response)[0]+'.json')
+              .then((response) => {
+                context.dispatch('getGroups');
+              })
+            })
           .catch((error) => console.log(error));
       },
 }

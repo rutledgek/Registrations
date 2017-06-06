@@ -2,6 +2,14 @@
 
   <div class="eventgroups"  v-if="($store.state.groupType != '')">
     <div v-for="group in eventGroups" class="group">
+      <div class="editDelete">
+        <div class="deleteGroup">
+          <div>
+            <i class="fa fa-pencil"></i>
+            <i class="fa fa-trash-o" @click="deleteGroup(group)"></i>
+          </div>
+        </div>
+      </div>
       <h3>{{ group.name }}</h3><h5>Spots Left: {{ registrationsLeft(group) }} / {{ group.capacity }}</h5>
       <div class="filters">
         <div>
@@ -101,6 +109,9 @@ export default {
       var indexVal = Arr.indexOf(val);
       Arr.splice(indexVal,1);
       this.$store.dispatch('updateMembers', { val, Arr, index });
+    },
+    deleteGroup(groupId){
+      this.$store.dispatch('deleteGroup', groupId);
     }
     },
   }
@@ -195,7 +206,18 @@ h6 {
   /*font-weight: normal;*/
   font-size:1.2em;
   margin-bottom:30px;
-
 }
-
+.editDelete{
+  position: relative;
+}
+.deleteGroup {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  color: black;
+  font-size: 20px;
+}
+.deleteGroup i {
+  padding-right: 6px;
+}
 </style>
