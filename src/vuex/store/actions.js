@@ -26,7 +26,7 @@ export default {
         // console.log(data);
         return api.post('https://registrations-assignment.firebaseio.com/Groups.json',data)
           .then((response) => {
-            context.dispatch('getGroups')
+            context.dispatch('getGroups');
           })
           .catch((error) => console.log(error));
       },
