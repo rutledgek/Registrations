@@ -7,9 +7,21 @@ export default {
         } else {
         var data = '{"members":['+obj.Arr+']}'
         }
-        return api.patch('https://registrations-assignment.firebaseio.com/Groups/' + obj.index + '.json', data)
-         .then((response) => context.commit('updateMembers', {response, obj}))
-         .catch((error) => console.log(error));
+        console.log(obj);
+        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + obj.val2 + '&endAt=3&print=pretty')
+          .then((response) => {
+            // console.log(response)
+            return api.patch('https://registrations-assignment.firebaseio.com/Groups/'+Object.keys(response)[0]+'.json', data)
+              .then((response) => {
+                context.dispatch('getGroups');
+            })
+            })
+          .catch((error) => console.log(error));
+
+        //
+        // return api.patch('https://registrations-assignment.firebaseio.com/Groups/' + obj.index + '.json', data)
+        //  .then((response) => context.commit('updateMembers', {response, obj}))
+        //  .catch((error) => console.log(error));
       },
       getRegistrations(context){
         return api.get('https://registrations-assignment.firebaseio.com/Registrations.json')

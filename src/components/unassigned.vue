@@ -73,13 +73,15 @@ export default {
     },
     addMember(val, val2){
       var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
+      console.log(val2);
       var index = this.$store.state.Groups.indexOf(oldArr);
+      console.log(index);
       var Arr = _.cloneDeep(oldArr.members);
       if(Arr[0]==0){
         Arr.splice(0,1);
       }
       Arr.push(val);
-      this.$store.dispatch('updateMembers', { val, Arr, index });
+      this.$store.dispatch('updateMembers', { val, Arr, val2 });
     }
   }
 }

@@ -108,7 +108,7 @@ export default {
       var Arr = _.cloneDeep(oldArr.members);
       var indexVal = Arr.indexOf(val);
       Arr.splice(indexVal,1);
-      this.$store.dispatch('updateMembers', { val, Arr, index });
+      this.$store.dispatch('updateMembers', { Arr, val2 });
     },
     deleteGroup(groupId){
       this.$store.dispatch('deleteGroup', groupId);
