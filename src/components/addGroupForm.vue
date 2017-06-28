@@ -15,7 +15,7 @@
           <input type="text" v-model="newGroup.name"><br />
         </div>
         <div class="form-group">
-          <label :class="{required: !newGroup.type}">Group Capacity: </label><input v-model="newGroup.capacity" style="width: 50px;" type="number"/>
+          <label :class="{required: !newGroup.capacity}">Group Capacity: </label><input v-model="newGroup.capacity" style="width: 50px;" type="number"/>
         </div>
         <div class="form-group">
             <label :class="{required: !newGroup.type}">Group Type:</label>
@@ -52,7 +52,7 @@
               <option v-for="grade in Grades" v-bind:value="grade.value">{{grade.label}}</option>
           </select>
         </fieldset>
-        <button @click.prevent="submit(newGroup)" :disabled="(!newGroup.name || !newGroup.type)">Add Group</button>
+        <button @click.prevent="submit(newGroup)" :disabled="(!newGroup.name || !newGroup.type || !newGroup.capacity)">Add Group</button>
       </form>
       <div v-if="this.submitted">
         {{newGroup}}

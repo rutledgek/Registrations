@@ -7,8 +7,15 @@
             <div class="btn btn-primary" @click="SortOrder('Age')">Age</div>
             <div class="btn btn-primary" @click="SortOrder('Grade')">Grade</div>
             <div class="btn btn-primary" @click="SortOrder('Gender')">Gender</div>
-            <draggable class="dragArea"  style="min-height: 80px; width:100%" :options="{sort:false}">
-              <div class="registrations well" v-for="Registration in Registrations">
+            <!-- <draggable class="dragArea"  style="min-height: 80px; width:100%" :options="{sort:false}"> -->
+              <div class="registrations well" v-for="Registration in Registrations"
+                draggable="true"
+                @dragstart="drag_Start({
+                    'AliasId': Registration.AliasId,
+                    'gender': Registration.Gender,
+                    'grade': Registration.Grade,
+                    'age': Registration.Age})"
+                @dragend="drag_End()" >
                 <div class="rows">
                   <div>
                     <h5>{{  Registration.FirstName}} {{  Registration.LastName }}</h5>
@@ -25,11 +32,8 @@
                     Gender: {{  Registration.Gender }}
                   </div>
                 </div>
-                <div>
-                  <a @click="addMember(Registration.AliasId, 3)"><i class="fa fa-reply-all fa-lg"></i></a>
-                </div>
               </div>
-            </draggable>
+            <!-- </draggable> -->
           </div>
           <div v-else  style="width: 100%">
               <h3>Please Choose a Group Type.</h3>
@@ -71,6 +75,9 @@ export default {
     SortOrder(val) {
         this.$store.commit('updateSort',val);
     },
+    drag_Start(obj){
+        this.$store.commit('moveStart',obj)
+    },
     addMember(val, val2){
       var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
       console.log(val2);
@@ -82,6 +89,9 @@ export default {
       }
       Arr.push(val);
       this.$store.dispatch('updateMembers', { val, Arr, val2 });
+    },
+    drag_End() {
+      this.$store.commit('dragEnd');
     }
   }
 }

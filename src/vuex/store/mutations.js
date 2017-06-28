@@ -35,4 +35,10 @@ export default {
     GrouptoDelete(state, response) {
       state.groupToDelete = response;
     },
+    moveStart(state, obj) {
+      state.movedItem = obj;
+    },
+    dragEnd(state){
+      state.movedItem = [];
+    }
 }

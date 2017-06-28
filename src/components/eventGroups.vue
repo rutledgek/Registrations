@@ -1,7 +1,7 @@
 <template>
 
-  <div class="eventgroups"  v-if="($store.state.groupType != '')">
-    <div v-for="group in eventGroups" class="group">
+  <div class="eventgroups" v-if="($store.state.groupType != '')">
+    <div v-for="group in eventGroups" class="group" draggable="true" @drop="drag_Drop(droppedItem, group.Id)" @dragover.prevent >
       <div class="editDelete">
         <div class="deleteGroup">
           <div>
@@ -27,9 +27,12 @@
       </div>
       <div class="personList">
         <h5>Members</h5>
+        <div v-if="(group.members == 0)" style="display:flex; flex-direction: column, align-items:center; justify-content: center;">
+          <div class="emptyGroup well">Drop New Group Members Here.</div>
+        </div>
         <div  v-if="(group.members != 0)">
-            <div v-for="person in persons(group.members)" class="memberslist well" >
-              <draggable class="dragarea">
+            <div v-for="person in persons(group.members)" class="memberslist well">
+              <!-- <draggable class="dragarea"> -->
               <div class="rows">
                 <div>
                   <h6>{{  person.FirstName}} {{  person.LastName }}</h6>
@@ -46,10 +49,10 @@
                   Gender: {{  person.Gender }}
                 </div>
                 <div>
-                  <a @click="removeMember(person.AliasId, group.Id)"><i class="fa fa-reply-all fa-lg fa-flip-horizontal"></i></a>
+                  <a @click="removeMember(person.AliasId, group.Id)" style="cursor:pointer"><i class="fa fa-undo fa-lg fa-flip-horizontal"></i></a>
                 </div>
               </div>
-              </draggable>
+              <!-- </draggable> -->
             </div>
       </div>
       </div>
@@ -81,6 +84,9 @@ export default {
     eventGroups(){
       return this.$store.getters.filteredGroups;
     },
+    droppedItem(){
+      return this.$store.getters.getDroppedMember;
+    }
   },
 
   methods: {
@@ -108,11 +114,21 @@ export default {
       var Arr = _.cloneDeep(oldArr.members);
       var indexVal = Arr.indexOf(val);
       Arr.splice(indexVal,1);
-      this.$store.dispatch('updateMembers', { Arr, val2 });
+      this.$store.dispatch('updateMembers', { Arr, oldArr, val2 });
     },
     deleteGroup(groupId){
       this.$store.dispatch('deleteGroup', groupId);
-    }
+    },
+    drag_Drop(val, val2){
+        var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
+        var index = this.$store.state.Groups.indexOf(oldArr);
+        var Arr = _.cloneDeep(oldArr.members);
+        if(Arr[0]==0){
+          Arr.splice(0,1);
+        }
+        Arr.push(val);
+        this.$store.dispatch('updateMembers', { val, Arr, oldArr, val2 });
+      },
     },
   }
 
@@ -176,7 +192,7 @@ li {
 }
 
 a {
-  color: #42b983;
+  color: red;
 }
 .rows{
   display:flex;
@@ -219,5 +235,11 @@ h6 {
 }
 .deleteGroup i {
   padding-right: 6px;
+}
+.emptyGroup {
+  height: 75px;
+  width: 100%;
+  padding: 30px;
+
 }
 </style>

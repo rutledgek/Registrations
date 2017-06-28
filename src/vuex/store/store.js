@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
       "editGroupForm": false,
       "groupToDelete": '',
       "Registrations": [],
+      "movedItem": [],
       "Groups":[],
       Grades: [
         {"label":"none",
@@ -64,5 +65,6 @@ export const store = new Vuex.Store({
   },
   getters,
   mutations,
-  actions
+  actions,
+  
 });

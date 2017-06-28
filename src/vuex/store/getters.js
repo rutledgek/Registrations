@@ -49,5 +49,8 @@ export default {
   },
   getGrades (state) {
     return state.Grades
-  }
+  },
+  getDroppedMember(state) {
+    return state.movedItem.AliasId;
+  },
 }
