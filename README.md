@@ -27,20 +27,10 @@ The main list is filtered by registration goup type that is selected and who has
 
 ### Work to be completed:
 
-  1. Create filters on unassigned registrations list to sort by name, gender, age, and grade.
-
-  2. Create form tp create/edit groups.  Part of this form is a selector showing all group types that already exist and the ability to create a new group type.  
-      Group Information(Many of these are used as filters to prevent people who do not fit the group's criteria from being added. These include Capacity, Gender, Age Range, or Grade Range.  (Use case: we don't want to be able to add middle school boys to a high school girls cabin):
-        Registration Instance(from Rock),
-        Type,
-        Name,
-        Capacity,
-        Gender,
-        Age Start,
-        Age End,
-        Grade Start,
-        Grade End
-
+  1. Create a form to edit groups already created.
+  
+  2. Create a text box for filtering/searching unassigned registrants.
+  
   3. Create filter, using the group filters, logic for drag and drop functionality.  On Drag Start, the filter will run and disable any groups that cannot be used for that person.
 
   4. All registration data is stored in RockRms.  The only field I want to be able to edit is Gender for when it is set to unknown.  Gender is necessary for groups that have gender filters.
