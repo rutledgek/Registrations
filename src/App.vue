@@ -16,16 +16,17 @@
         </div> -->
       </div>
       <div class="flex-layout" v-else>
-        <div style="width:75%">
+        <div style="width:75%" class="print">
           <eventGroups></eventGroups>
         </div>
-        <div style="width:25%">
+        <div style="width:25%" class="noprint">
           <groupTypeSelector></groupTypeSelector>
           <unassigned></unassigned>
         </div>
       </div>
     </div>
     <addGroup v-if="(this.$store.state.addGroupForm == true)"></addGroup>
+    <attendanceRoster></attendanceRoster>
   </div>
 </template>
 
@@ -36,6 +37,7 @@ import groupTypeSelector from './components/groupTypeSelector'
 import { state } from './vuex/store/store'
 import eventGroups from './components/eventGroups'
 import addGroup from './components/addGroupForm'
+import attendanceRoster from './components/attendanceRoster'
 
 export default {
   name: 'app',
@@ -45,7 +47,7 @@ export default {
 
   },
   components: {
-    unassigned, draggable, groupTypeSelector, eventGroups, addGroup,
+    unassigned, draggable, groupTypeSelector, eventGroups, addGroup, attendanceRoster
   },
   computed: {
     totalCount() {
@@ -74,6 +76,15 @@ export default {
   flex-diection: rows;
   justify-content:space-between;
   flex-wrap: wrap;
+}
+@media print {
+
+  .noprint {
+    display: none;
+  }
+  .print {
+    width: 100% !important;
+  }
 }
 
 </style>

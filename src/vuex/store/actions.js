@@ -2,15 +2,16 @@ import api from '../utils/api'
 
 export default {
       updateMembers(context, obj) {
-        console.log(obj.oldArr.members);
         if(obj.Arr.length == 0){
           data = '{"members":[0]}'
         } else {
         var data = '{"members":['+obj.Arr+']}'
         }
-        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + obj.val2 + '&endAt=3&print=pretty')
+
+        var limit = obj.val2 + 1;
+        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + obj.val2 + '&endAt=' + obj.val2)
           .then((response) => {
-            // console.log(response)
+            console.log(response)
             return api.patch('https://registrations-assignment.firebaseio.com/Groups/'+Object.keys(response)[0]+'.json', data)
               .then((response) => {
                 context.dispatch('getGroups');
@@ -43,7 +44,7 @@ export default {
           .catch((error) => console.log(error));
       },
       deleteGroup(context, data) {
-        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + data.Id + '&limitToFirst1*print=pretty')
+        return api.get('https://registrations-assignment.firebaseio.com/Groups.json?orderBy="Id"&startAt=' + data.Id + '&endAt=' + data.Id)
           .then((response) => {
             return api.delete('https://registrations-assignment.firebaseio.com/Groups/'+Object.keys(response)[0]+'.json')
               .then((response) => {

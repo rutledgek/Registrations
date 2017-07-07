@@ -2,11 +2,13 @@
 
   <div class="eventgroups" v-if="($store.state.groupType != '')">
     <div v-for="group in eventGroups" class="group" draggable="true" @drop="drag_Drop(droppedItem, group.Id)" @dragover.prevent >
+<!-- drag_Drop(droppedItem, group.Id) -->
       <div class="editDelete">
         <div class="deleteGroup">
           <div>
-            <i class="fa fa-pencil"></i>
-            <i class="fa fa-trash-o" @click="deleteGroup(group)"></i>
+            <i class="fa fa-table noprint" @click="showRoster(group.members)"></i>
+            <i class="fa fa-pencil noprint"></i>
+            <i class="fa fa-trash-o noprint" @click="deleteGroup(group)"></i>
           </div>
         </div>
       </div>
@@ -49,7 +51,7 @@
                   Gender: {{  person.Gender }}
                 </div>
                 <div>
-                  <a @click="removeMember(person.AliasId, group.Id)" style="cursor:pointer"><i class="fa fa-undo fa-lg fa-flip-horizontal"></i></a>
+                  <a @click="removeMember(person.AliasId, group.Id)" style="cursor:pointer" class="noprint"><i class="fa fa-undo fa-lg fa-flip-horizontal"></i></a>
                 </div>
               </div>
               <!-- </draggable> -->
@@ -86,6 +88,9 @@ export default {
     },
     droppedItem(){
       return this.$store.getters.getDroppedMember;
+    },
+    isDraggable(id){
+      return this.$store.getters.isdissabled(id);
     }
   },
 
@@ -119,11 +124,14 @@ export default {
     deleteGroup(groupId){
       this.$store.dispatch('deleteGroup', groupId);
     },
+    showRoster(obj){
+      this.$store.commit('showRoster',obj);
+    },
     drag_Drop(val, val2){
         var oldArr = this.$store.state.Groups.find(grp => grp.Id === val2);
         var index = this.$store.state.Groups.indexOf(oldArr);
         var Arr = _.cloneDeep(oldArr.members);
-        if(Arr[0]==0){
+        if(Arr[0]===0){
           Arr.splice(0,1);
         }
         Arr.push(val);
@@ -143,6 +151,8 @@ export default {
   /*align-items: center;*/
   /*margin: 10px;*/
   /*box-sizing: border-box;*/
+  /*position: abso;*/
+  /*width: 60%;*/
   flex-shring: 2;
 }
 .eventgroups>div {
@@ -231,7 +241,7 @@ h6 {
   top: -8px;
   right: -10px;
   color: black;
-  font-size: 20px;
+  font-size: 18px;
 }
 .deleteGroup i {
   padding-right: 6px;
@@ -240,6 +250,23 @@ h6 {
   height: 75px;
   width: 100%;
   padding: 30px;
+
+}
+@media print
+{
+    div {
+
+    }
+    .eventgroups{
+      width: 100%;
+      page-break-inside: avoid;
+      page-break-after: always;
+    }
+    .eventgroups>div {
+      width: 100%;
+
+    }
+
 
 }
 </style>

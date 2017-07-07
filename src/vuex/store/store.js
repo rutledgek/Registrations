@@ -18,6 +18,7 @@ export const store = new Vuex.Store({
       "Registrations": [],
       "movedItem": [],
       "Groups":[],
+      "showRoster":[],
       Grades: [
         {"label":"none",
          "value": null
@@ -66,5 +67,5 @@ export const store = new Vuex.Store({
   getters,
   mutations,
   actions,
-  
+
 });

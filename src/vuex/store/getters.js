@@ -9,7 +9,12 @@ export default {
     return filteredGroupsbyType;
   },
   getlocalgroups(state){
-    return _.last(state.Groups);
+    if(state.Groups != '') {
+    return _.last(state.Groups).Id;
+    }
+    else{
+      return 0;
+    }
   },
   unassignedRegistrants(state, getters) {
     if(state.Groups != '') {
@@ -53,4 +58,10 @@ export default {
   getDroppedMember(state) {
     return state.movedItem.AliasId;
   },
+  lastGroup(state) {
+
+  },
+  showRoster(state) {
+
+  }
 }

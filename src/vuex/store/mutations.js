@@ -40,5 +40,9 @@ export default {
     },
     dragEnd(state){
       state.movedItem = [];
+    },
+    showRoster(state, obj) {
+      state.showRoster = obj;
+      console.log(state.showRoster)
     }
 }

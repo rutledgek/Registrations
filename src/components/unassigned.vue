@@ -3,7 +3,7 @@
     <div class="rows">
           <div v-if="this.$store.state.groupType != ''" style="width: 100%">
             <h2><strong>Unassigned Registrants:</strong> ({{ filteredCount }})</h2>
-            <div class="btn btn-primary" @click="SortOrder('LastName')">Name</div>
+            <div class="btn btn-primary" @click="SortOrder('FirstName')">Name</div>
             <div class="btn btn-primary" @click="SortOrder('Age')">Age</div>
             <div class="btn btn-primary" @click="SortOrder('Grade')">Grade</div>
             <div class="btn btn-primary" @click="SortOrder('Gender')">Gender</div>
@@ -18,7 +18,7 @@
                 @dragend="drag_End()" >
                 <div class="rows">
                   <div>
-                    <h5>{{  Registration.FirstName}} {{  Registration.LastName }}</h5>
+                    <h5>{{ Registration.FirstName }} {{  Registration.LastName }}</h5>
                   </div>
                 </div>
                 <div class="rows">
@@ -29,7 +29,7 @@
                     {{ Registration.GradeFormatted }}
                   </div>
                   <div class="attributes">
-                    Gender: {{  Registration.Gender }}
+                    Gender: {{ Registration.Gender }}
                   </div>
                 </div>
               </div>

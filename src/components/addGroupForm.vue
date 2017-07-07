@@ -74,23 +74,26 @@ export default {
     },
     Grades() {
       return this.$store.getters.getGrades;
+    },
+    lastGroup() {
+      return this.$store.getters.getlocalgroups;
     }
   },
 
   methods: {
     submit(obj){
-      // console.log(obj);
-      if(!this.newGroup.Id) {
-        this.newGroup.Id = 0;
-      } else {
-        this.newGroup.Id = group.Id + 1;
-      }
-      // console.log(obj);
+      var data = obj;
       this.$store.dispatch('getGroups');
-      // var group = this.$store.getters.getlocalgroups;
-
-      this.$store.dispatch('addGroup', obj);
-      this.$store.commit('updateFilter', obj.type);
+      var groupId = this.$store.getters.getlocalgroups + 1;
+      if(this.$store.getters.getlocalgroups == null) {
+        data.Id = 0;
+        console.log('yes')
+      } else {
+        data.Id = groupId;
+        console.log('no')
+      }
+      this.$store.dispatch('addGroup', data);
+      this.$store.commit('updateFilter', data.type);
       this.$store.state.addGroupForm = false;
     },
     closeGroup() {
